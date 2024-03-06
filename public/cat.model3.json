@@ -1,0 +1,114 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "cat.moc3",
+		"Textures": [
+			"textures/texture_00.png",
+			"textures/texture_01.png"
+		],
+		"Physics": "cat.physics3.json",
+		"DisplayInfo": "cat.cdi3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motion/byby.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				},
+				{
+					"File": "motion/gaooo.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				},
+				{
+					"File": "motion/grgr.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				},
+				{
+					"File": "motion/zzz.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			]
+		},
+	 
+		"Expressions": [
+			{
+				"Name": "キラキラ目",
+				"File": "motion/EyeKirakira.exp3.json"
+			},
+			{
+				"Name": "ぐるぐる目",
+				"File": "motion/EyeGrugru.exp3.json"
+			},
+			{
+				"Name": "ハート目",
+				"File": "motion/EyeHeart.exp3.json"
+			},
+			{
+				"Name": "＞＜",
+				"File": "motion/Eye.exp3.json"
+			},
+			{
+				"Name": "ウルウル目",
+				"File": "motion/EyeUrur.exp3.json"
+			},
+			{
+				"Name": "汗",
+				"File": "motion/Sweat.exp3.json"
+			},
+			{
+				"Name": "ハイライト消し",
+				"File": "motion/EyeHighlight.exp3.json"
+			},
+			{
+				"Name": "顔の赤み強",
+				"File": "motion/FaceRed.exp3.json"
+			},
+			{
+				"Name": "顔が青ざめる",
+				"File": "motion/FaceBlue.exp3.json"
+			},
+			{
+				"Name": "がおー手",
+				"File": "motion/HandGaoo.exp3.json"
+			},
+			{
+				"Name": "バイバイ",
+				"File": "motion/HandByby.exp3.json"
+			},
+			{
+				"Name": "怒り眉",
+				"File": "motion/AngryEyebrow.exp3.json"
+			},
+			{
+				"Name": "リボン切り替え",
+				"File": "motion/ribbon.exp3.json"
+			}
+		]
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	],
+	"HitAreas": [
+		{
+		  "Id": "ParamEyeLOpen",
+		  "Name": "Head"
+		},
+		{
+		  "Id": "HitArea2",
+		  "Name": "Body"
+		}
+	  ]
+	
+}

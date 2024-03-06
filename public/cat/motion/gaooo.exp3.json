@@ -1,0 +1,150 @@
+{
+	"Type": "Live2D Expression",
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamAngleY",
+			"Value": 2,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamBrowLForm",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEye",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamGrgreye2",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEyeKirakira",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEyeHeart",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEye2",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEyeUruuru",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbBlackEyes",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbHighlight",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbTears",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbSweat",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbFaceRed",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbFaceBlue",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbFaceCenter",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamMHand1",
+			"Value": 1,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbHand2",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamArm",
+			"Value": 0,
+			"Blend": "Add"
+		}
+	]
+}

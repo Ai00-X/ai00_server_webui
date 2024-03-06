@@ -1,0 +1,20 @@
+{
+	"Type": "Live2D Expression",
+	"Parameters": [
+		{
+			"Id": "ParamKbHand2",
+			"Value": 1,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamMHand1",
+			"Value": 1,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamArm",
+			"Value": -10.227,
+			"Blend": "Add"
+		}
+	]
+}

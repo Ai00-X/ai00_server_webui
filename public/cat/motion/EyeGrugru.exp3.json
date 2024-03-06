@@ -1,0 +1,35 @@
+{
+	"Type": "Live2D Expression",
+	"Parameters": [
+		{
+			"Id": "ParamGrgreye2",
+			"Value": 1,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEyeKirakira",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEyeHeart",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEye2",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbEyeUruuru",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamKbSweat",
+			"Value": 1,
+			"Blend": "Add"
+		}
+	]
+}
