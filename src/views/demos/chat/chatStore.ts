@@ -111,7 +111,7 @@ export const useChatStore = defineStore({
     removeOtherMessage(timestamp: number) {
       const history = this.chatHistory.history;
       for (let i = history.length - 1; i >= 0; i--) {
-        if (history[i].timestamp >= timestamp) {
+        if (history[i].timestamp > timestamp) {
           history.splice(i, 1);
         } else {
           // 由于历史记录是按时间排序的，
