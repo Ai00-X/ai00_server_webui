@@ -62,7 +62,9 @@ const sendMessage = () => {
 };
 
 const isError = ref(false);
-const ischat = ref(false);
+const ischat = computed(() => {
+  return useChatStore().isChatting;
+});;
 const errorMsg = ref("");
 
 watch(
@@ -73,13 +75,6 @@ watch(
   { deep: true }
 );
 
-watch(
-  () => chatStore.isChatting,
-  () => {
-    ischat.value = chatStore.isChatting;
-  },
-  { deep: true }
-);
 
 const sendChatMessage = async (content: string = userMessage.value) => {
   try {
@@ -125,7 +120,7 @@ const sendChatMessage = async (content: string = userMessage.value) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
-      window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
     } else if (chatStore.SamplerType == "Mirostat") {
@@ -144,7 +139,7 @@ const sendChatMessage = async (content: string = userMessage.value) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
-      window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
 

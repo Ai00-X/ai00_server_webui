@@ -31,7 +31,7 @@
   const scrollToBottom = () => {
     const chatArea = document.getElementById("chat-area");
 
- 
+
     setTimeout(function(){
 
       chatArea?.scrollTo({
@@ -75,8 +75,12 @@
 
  };
 
-
-
+  const ischat = computed(() => {
+    return useChatStore().isChatting;
+  });;
+  const cancelSend=()=>{
+    window.Ai00Api.cancelSend();
+  }
  watch(
   () => chatStore.nowchat,
   () => {
@@ -140,6 +144,10 @@ watch(
     <!---Input Area -->
     <!-- ---------------------------------------------- -->
   </perfect-scrollbar>
+  <div  v-if="ischat" style="display: flex; justify-content: center; align-items: center; margin-top: -10px; margin-bottom: 10px;">
+    <span>停止输出</span>
+    <v-icon  @click="cancelSend" color="primary">mdi-pause</v-icon>
+  </div>
   <v-sheet class="input-area">
     <InputArea @scroll="scrollToBottom2" />
   </v-sheet>

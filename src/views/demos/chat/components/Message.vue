@@ -118,7 +118,7 @@ const sendChatMessage = async (content: string) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
-      window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
     } else if (chatStore.SamplerType == "Mirostat") {
@@ -137,7 +137,7 @@ const sendChatMessage = async (content: string) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
-      window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
 
@@ -149,9 +149,9 @@ const sendChatMessage = async (content: string) => {
     // 调用 window.Ai00Api.oai_chat_completions 函数，传入参数：
     // body 参数数据结构是 /ai00sdk/ai00Type.ts 中定义 的 ai00Type.OaiChatCompletionsType
     // console.log("111")
-    window.Ai00Api.oai_chat_completions(body, async (res: string) => {
-      chatStore.changeLatestMessage(res);
-    });
+    // window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+    //   chatStore.changeLatestMessage(res);
+    // });
   } catch (error: any) {
     chatStore.setChatting(false);
   } finally {
