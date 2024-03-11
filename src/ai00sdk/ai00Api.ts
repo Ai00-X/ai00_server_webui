@@ -1,12 +1,16 @@
 import { useAi00Store } from "./ai00Store";
 import * as ai00Type from "./ai00Type";
+import {useChatStore} from "@/views/demos/chat/chatStore";
 
 module Ai00Api {
   // ...
-
   /*
   内部函数 send_api 发送api
+
   */
+  let controller: AbortController;
+
+  let eventData: string = '';
   async function send_api(
     apiurl: string,
     method: string,
@@ -14,12 +18,17 @@ module Ai00Api {
     onmessage?: Function
   ) {
     const ai00Store = useAi00Store();
+
+    controller = new AbortController();
+    // 创建AbortController实例
+
+
     if(window.location.host == "localhost:4399"){
       ai00Store.setserverip("127.0.0.1:65530");
     }else{
       ai00Store.setserverip(window.location.host)
     }
-    
+
     if (method == "POST") {
       const response = await fetch(ai00Store.server + apiurl, {
         method: "POST",
@@ -28,7 +37,9 @@ module Ai00Api {
           Authorization: `Bearer ${apiurl}`,
         },
         body: JSON.stringify(bodys),
-      });
+        signal: controller.signal,
+
+      })
       const { body, status } = response;
       if (bodys.stream && body) {
         const reader = body.getReader();
@@ -39,6 +50,7 @@ module Ai00Api {
         ) => {
           let partialLine = "";
           let contentscache = "";
+          eventData = "";
           let temp = 0;
           while (true) {
             // eslint-disable-next-line no-await-in-loop
@@ -90,6 +102,7 @@ module Ai00Api {
               }
 
               contentscache += content;
+              eventData+= content;
               if (temp == 0) {
                 if (onmessage) {
                   onmessage(contentscache);
@@ -103,7 +116,7 @@ module Ai00Api {
         console.log(status);
         console.log(body);
         if (status === 200) {
-          
+
           if (onmessage) {
             try {
               const responseBody = await response.json();
@@ -125,7 +138,7 @@ module Ai00Api {
 
 
 
-        
+
       }
     } else if (method == "GET") {
       const response = await fetch(ai00Store.server + apiurl, {
@@ -150,7 +163,11 @@ module Ai00Api {
       }
     }
   }
-
+  export function cancelSend() {
+    controller.abort();
+    useChatStore().changeLatestMessage(eventData);
+    useChatStore().setChatting(false);
+  }
   /*
   API :  /api/adapters
   */
@@ -173,7 +190,7 @@ module Ai00Api {
   }
 
   /*
-  API :  /api/oai/chat/completions 
+  API :  /api/oai/chat/completions
   */
   export async function oai_chat_completions(
     body: ai00Type.OaiChatCompletionsType,
@@ -184,7 +201,7 @@ module Ai00Api {
     const foundApi = ai00Store.apis.find((api) => api.apiurl === apiurl);
 
     if (foundApi) {
-      
+
       const method = foundApi.method;
       await send_api(apiurl, method, body, (date: any) => {
         run(date);
@@ -193,9 +210,9 @@ module Ai00Api {
       console.log("找不到匹配的API");
     }
   }
-  
+
   /*
-  API :  /api/oai/completions 
+  API :  /api/oai/completions
   */
   export async function oai_completions(
     body: ai00Type.OaiCompletionsType,
@@ -259,7 +276,7 @@ module Ai00Api {
 
   /*
   API :  /api/models/info
-  */  
+  */
   export async function models_info(run: Function) {
     const ai00Store = useAi00Store();
     const apiurl = "/api/models/info";
@@ -280,7 +297,7 @@ module Ai00Api {
 
   /*
   API :  /api/models/list
-  */  
+  */
   export async function models_list(run: Function) {
     const ai00Store = useAi00Store();
     const apiurl = "/api/models/list";
@@ -302,7 +319,7 @@ module Ai00Api {
 
   /*
   API :  /api/models/load
-  */  
+  */
   export async function models_load(body: ai00Type.ModelsLoadType,run: Function) {
     const ai00Store = useAi00Store();
     const apiurl = "/api/models/load";
@@ -325,7 +342,7 @@ module Ai00Api {
 
   /*
   API :  /api/files/dir
-  */   
+  */
   export async function files_dir(body: ai00Type.FilesDirType,run: Function) {
     const ai00Store = useAi00Store();
     const apiurl = "/api/files/dir";
@@ -344,7 +361,7 @@ module Ai00Api {
 
   /*
   API :  /api/files/unzip
-  */   
+  */
   export async function files_unzip(body: ai00Type.FilesUnzipType,run: Function) {
     const ai00Store = useAi00Store();
     const apiurl = "/api/files/unzip";
