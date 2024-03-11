@@ -203,10 +203,6 @@ res.forEach((item, index) => {
       </ul>
     </template>
   </v-textarea>
-  <div v-if="ischat" style="display: flex; justify-content: center; align-items: center; margin-top: -10px;">
-    <span>停止输出</span>
-    <v-icon @click="cancelSend" color="primary">mdi-pause</v-icon>
-  </div>
   <v-snackbar :timeout="2000" color="error" v-model="isError">
     {{ errorMsg }}
   </v-snackbar>

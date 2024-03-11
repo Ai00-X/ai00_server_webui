@@ -12,6 +12,7 @@
 
 
   import { watch,nextTick } from "vue"
+  import Ai00Api from "@/ai00sdk/ai00Api";
 
   const goClipboard = async () => {
   const element = document.getElementById("po");
@@ -31,7 +32,7 @@
   const scrollToBottom = () => {
     const chatArea = document.getElementById("chat-area");
 
- 
+
     setTimeout(function(){
 
       chatArea?.scrollTo({
@@ -75,8 +76,12 @@
 
  };
 
-
-
+  const ischat = computed(() => {
+    return useChatStore().isChatting;
+  });;
+  const cancelSend=()=>{
+    window.Ai00Api.cancelSend();
+  }
  watch(
   () => chatStore.nowchat,
   () => {
@@ -133,15 +138,21 @@ watch(
 
     <v-sheet elevation="0" color="transparent" class="messages-area" id="po">
       <ChatTitle />
-      <MessageArea />
+      <MessageArea/>
       <br/>
     </v-sheet>
+
     <!-- ---------------------------------------------- -->
     <!---Input Area -->
     <!-- ---------------------------------------------- -->
   </perfect-scrollbar>
+  <div  v-if="ischat" style="display: flex; justify-content: center; align-items: center; margin-top: -10px; margin-bottom: 10px;">
+    <span>停止输出</span>
+    <v-icon  @click="cancelSend" color="primary">mdi-pause</v-icon>
+  </div>
   <v-sheet class="input-area">
-    <InputArea @scroll="scrollToBottom2" />
+
+    <InputArea @scroll="scrollToBottom2"/>
   </v-sheet>
 
 </template>
