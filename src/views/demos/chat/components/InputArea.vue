@@ -62,7 +62,9 @@ const sendMessage = () => {
 };
 
 const isError = ref(false);
-const ischat = ref(false);
+const ischat = computed(() => {
+  return useChatStore().isChatting;
+});;
 const errorMsg = ref("");
 
 watch(
@@ -73,13 +75,6 @@ watch(
   { deep: true }
 );
 
-watch(
-  () => chatStore.isChatting,
-  () => {
-    ischat.value = chatStore.isChatting;
-  },
-  { deep: true }
-);
 
 const sendChatMessage = async (content: string = userMessage.value) => {
   try {
@@ -125,7 +120,7 @@ const sendChatMessage = async (content: string = userMessage.value) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
-      window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
     } else if (chatStore.SamplerType == "Mirostat") {
@@ -144,7 +139,7 @@ const sendChatMessage = async (content: string = userMessage.value) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
-      window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
 
@@ -165,7 +160,9 @@ const sendChatMessage = async (content: string = userMessage.value) => {
     chatStore.setChatting(false);
   }
 };
-
+const cancelSend=()=>{
+  window.Ai00Api.cancelSend();
+}
 let res: string[] = ["", "", ""];
 res.forEach((item, index) => {
   res[index] = " ";
@@ -197,15 +194,19 @@ res.forEach((item, index) => {
     </template>
     <template #prepend>
       <ul style="list-style: none; margin-left: 20px">
-        <li style="list-style: none; margin-bottom: 20px">
-          <v-icon @click="sendMessage" color="primary">mdi-new-box</v-icon>
-        </li>
+        <li   style="list-style: none; margin-bottom: 20px">
+        <v-icon   @click="sendMessage" color="primary">mdi-new-box</v-icon>
+      </li>
         <li style="list-style: none; margin-bottom: 15px">
           <v-icon color="#a2a2a2" icon="mdi-web" @click="sendMessage"></v-icon>
         </li>
       </ul>
     </template>
   </v-textarea>
+  <div v-if="ischat" style="display: flex; justify-content: center; align-items: center; margin-top: -10px;">
+    <span>停止输出</span>
+    <v-icon @click="cancelSend" color="primary">mdi-pause</v-icon>
+  </div>
   <v-snackbar :timeout="2000" color="error" v-model="isError">
     {{ errorMsg }}
   </v-snackbar>
