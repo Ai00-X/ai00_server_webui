@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import type { Message, User , clist } from "./chatTypes";
+import i18n from "@/plugins/i18n";
+
 
 const Ai:User = {
   id: 2,
@@ -13,13 +15,22 @@ const You:User = {
   avatar: "/tou/8.png"
 }
 
-const history: Message = {
-  id: "123",
-  user: Ai,
-  text: "hi",
-  timestamp: ""
-}
+// const history: Message = {
+//   id: "123",
+//   user: Ai,
+//   text: "hi",
+//   timestamp: ""
+// }
 
+
+
+const history: Message = {
+  id: "_" + Math.random().toString(36).substring(2, 11),
+  user: Ai,
+  // @ts-ignore
+  text:i18n.global.t("chat.hello"),
+  timestamp: new Date().getTime(),
+};
 const ss :Message[] = []
 ss.push(history)
 

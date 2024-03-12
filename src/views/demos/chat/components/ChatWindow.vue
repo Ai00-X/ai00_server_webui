@@ -77,7 +77,7 @@
 
   const ischat = computed(() => {
     return useChatStore().isChatting;
-  });;
+  });
   const cancelSend=()=>{
     window.Ai00Api.cancelSend();
   }
