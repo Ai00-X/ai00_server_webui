@@ -44,6 +44,8 @@ export const useTodoStore = defineStore({
   },
   actions: {
     // Add new todo
-
+    setChatting(b: boolean) {
+      this.isChatting = b;
+    },
   },
 });

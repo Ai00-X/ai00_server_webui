@@ -83,6 +83,7 @@ export default {
      settings: "参数设置",
      write: "续写",
      screenshot: "截图",
+     stop: "暂停",
      clear: "清空",
      title: "论文标题",
      step1: "生成提纲",

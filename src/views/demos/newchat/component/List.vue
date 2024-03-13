@@ -9,9 +9,12 @@ import {MdEditor, ToolbarNames} from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import * as ai00Type from "@/ai00sdk/ai00Type";
 import  Copy  from "./Copy.vue";
-
+import { useSnackbarStore } from "@/stores/snackbarStore";
+const snackbarStore = useSnackbarStore();
 const todoStore = useTodoStore();
-
+const ischat = computed(() => {
+  return useTodoStore().isChatting;
+});
 const toolbar = ref([
   'bold',
   'underline',
@@ -39,9 +42,9 @@ const sendPrompt = async () => {
 
 const prompt = todoStore.text
 const temp :string = todoStore.text
-if(todoStore.SamplerType == 'Nucleus'){
-
-
+try{
+  todoStore.setChatting(true);
+  if(todoStore.SamplerType == 'Nucleus'){
   const body: ai00Type.OaiCompletionsType = {
     prompt: [prompt],
     max_tokens: todoStore.Max_Tokens,
@@ -53,7 +56,7 @@ if(todoStore.SamplerType == 'Nucleus'){
     stop: ["\n\n","\nQ:","\nUser:","\nQuestion:","\n\nQ:","\n\nUser:","\n\nQuestion:","Q:","User:","Question:"],
     stream: true,
   }
-  window.Ai00Api.oai_completions(body, async (res: string) => {
+  await window.Ai00Api.oai_completions(body, async (res: string) => {
     todoStore.text = temp + res
 
   })
@@ -66,12 +69,16 @@ if(todoStore.SamplerType == 'Nucleus'){
     stop: ["\n\n","\nQ:","\nUser:","\nQuestion:","\n\nQ:","\n\nUser:","\n\nQuestion:","Q:","User:","Question:"],
     stream: true,
   }
-  window.Ai00Api.oai_completions(body, async (res: string) => {
+  await window.Ai00Api.oai_completions(body, async (res: string) => {
     todoStore.text = temp + res
 
   })
 
-}
+}}catch (error: any) {
+  todoStore.setChatting(false);
+  } finally {
+  todoStore.setChatting(false);
+  }
 
 
 
@@ -82,6 +89,9 @@ if(todoStore.SamplerType == 'Nucleus'){
 
 
 import * as htmlToImage from 'html-to-image';
+import {useChatStore} from "@/views/demos/chat/chatStore";
+import {c} from "vite/dist/node/types.d-AKzkD8vd";
+import {cancelSendNew} from "@/ai00sdk/ai00Api";
 
 
 const goClipboard = async () => {
@@ -93,9 +103,18 @@ if (element) {
       new ClipboardItem({ [blob.type]: blob })
     ]);
   }
+  snackbarStore.showSuccessMessage("截图成功");
 }
 };
-
+const cancelSend=()=>{
+  window.Ai00Api.cancelSendNew();
+}
+const clear=()=>{
+  if (ischat){
+    window.Ai00Api.cancelSendNew();
+  }
+  todoStore.text=''
+}
 </script>
 
 <template>
@@ -107,9 +126,10 @@ if (element) {
 
         <v-btn  color="primary" @click="sendPrompt">        {{ $t("write.write") }} </v-btn>
 
-        <v-btn  color="primary" @click="todoStore.text=''" style="margin-left: 30px;">{{ $t("write.clear") }}</v-btn>
+        <v-btn  color="primary" @click="clear" style="margin-left: 30px;">{{ $t("write.clear") }}</v-btn>
 
         <v-btn  color="primary" @click="goClipboard" style="margin-left: 30px;">{{ $t("write.screenshot") }}</v-btn>
+        <v-btn  v-if="ischat" color="primary" @click="cancelSend" style="margin-left: 30px;">{{ $t("write.stop") }}</v-btn>
       </template>
       <v-card-text  >
       <MdEditor v-model="todoStore.text"

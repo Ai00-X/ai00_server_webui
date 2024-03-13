@@ -1,6 +1,7 @@
 import { useAi00Store } from "./ai00Store";
 import * as ai00Type from "./ai00Type";
 import {useChatStore} from "@/views/demos/chat/chatStore";
+import {useTodoStore} from "@/views/demos/newchat/Store";
 
 module Ai00Api {
   // ...
@@ -167,6 +168,10 @@ module Ai00Api {
     controller.abort();
     useChatStore().changeLatestMessage(eventData);
     useChatStore().setChatting(false);
+  }
+  export function cancelSendNew() {
+    controller.abort();
+    useTodoStore().setChatting(false);
   }
   /*
   API :  /api/adapters
