@@ -6,11 +6,28 @@
 <script setup lang="ts">
 import ChatMenu from "./components/ChatMenu.vue";
 import { useChatStore } from "./chatStore";
+import { useDisplay } from 'vuetify'
 
+const { mobile } = useDisplay()
 const chatStore = useChatStore();
 
 
+const disableSettingsOnMobile = () => {
+  chatStore.showSetting = !mobile.value;
+  chatStore.Sidebar = !mobile.value;
+};
 
+onMounted(() => {
+  disableSettingsOnMobile();
+});
+
+watch(mobile, (newValue) => {
+  disableSettingsOnMobile();
+});
+
+const mainClass = computed(() => {
+  return mobile.value && chatStore.showSetting ? 'mobile-show-right' : '';
+});
 
   const model = ref("")
 
@@ -19,7 +36,7 @@ const chatStore = useChatStore();
     chatStore.Model = model.value
   })
 
- 
+
 </script>
 
 <template>
@@ -27,7 +44,7 @@ const chatStore = useChatStore();
     <!-- ---------------------------------------------- -->
     <!-- Side Bar -->
     <!-- ---------------------------------------------- -->
-    <v-card :class="chatStore.Sidebar ? 'lls ' : 'll d-none d-md-block sidebar'" v-if="chatStore.Sidebar"> 
+    <v-card :class="chatStore.Sidebar ? 'lls ' : 'll d-none d-md-block sidebar'" v-if="chatStore.Sidebar">
 
       <div style="padding: 10px">
         <ChatMenu />
@@ -37,7 +54,7 @@ const chatStore = useChatStore();
     <!-- ---------------------------------------------- -->
     <!--  List  -->
     <!-- ---------------------------------------------- -->
-    <v-card class="main " >
+    <v-card :class="['main', mainClass]" >
       <router-view v-slot="{ Component }">
         <transition name="fade">
           <component :is="Component" />
@@ -54,13 +71,13 @@ const chatStore = useChatStore();
       </template>
 
       <template v-slot:text>
- 
+
         <v-select
   label="Sampler Type"
   :items="['Nucleus', 'Mirostat']"
   v-model="chatStore.SamplerType"
   variant="outlined"
-></v-select> 
+></v-select>
 <v-card-text> Max Tokens </v-card-text>
         <v-slider
           v-model="chatStore.Max_Tokens"
@@ -150,14 +167,15 @@ const chatStore = useChatStore();
   display: flex;
   height: 100%;
   width: 100%;
- 
+
   font-size: 14px;
 
   .main {
     flex: 1;
     height: 100%;
-
-  }
+  } .main.mobile-show-right {
+      margin-left: -300px;
+    }
   .rr {
     flex-basis: 270px;
     margin-left: 20px;
