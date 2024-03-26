@@ -25,9 +25,9 @@ module Ai00Api {
 
 
     if(window.location.host == "localhost:4399"){
-      ai00Store.setserverip("127.0.0.1:65530");
+      ai00Store.setserverip("https://127.0.0.1:65530");
     }else{
-      ai00Store.setserverip(window.location.host)
+      ai00Store.setserverip(window.location.origin)
     }
 
     if (method == "POST") {

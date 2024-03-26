@@ -95,7 +95,7 @@ const apis :(types.Ai00ApiPostType | types.Ai00ApiGetType)[] = [
       penalty_decay: 0.95,
     },
     readme: "等待补充"
-  }, 
+  },
   {
     apiurl: "/api/oai/embeddings",
     otherurl:"/api/oai/v1/embeddings",
@@ -105,7 +105,7 @@ const apis :(types.Ai00ApiPostType | types.Ai00ApiGetType)[] = [
       input : "啊哈哈哈哈哈哈哈是是是是是"
     },
     readme: "等待补充"
-  }, 
+  },
 
 ];
 
@@ -113,7 +113,7 @@ export const useAi00Store = defineStore({
   id: "Ai00",
   state: () => ({
     apis: apis,
-    server: "http://127.0.0.1:65530",
+    server: "https://127.0.0.1:65530",
     quant_type: "None",
     quant: 0,
 
@@ -135,7 +135,7 @@ export const useAi00Store = defineStore({
       this.model = model;
     },
     setserverip(ip: string){
-      this.server =  "http://" + ip;
+      this.server = ip;
     },
   },
 });

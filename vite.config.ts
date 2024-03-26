@@ -9,10 +9,15 @@ import AutoImport from "unplugin-auto-import/vite";
 import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
 
+import fs from 'fs';
+import path from 'path';
 
+const key = fs.readFileSync(path.resolve(__dirname, 'localhost-key.pem'));
+const cert = fs.readFileSync(path.resolve(__dirname, 'localhost.pem'));
 
 // https://vitejs.dev/config/
 export default defineConfig({
+
   plugins: [
     vue(),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
@@ -23,6 +28,7 @@ export default defineConfig({
     AutoImport({
       imports: ["vue", "vue-router", "pinia"],
     }),
+
   ],
   define: { "process.env": {} },
   test: {
@@ -49,6 +55,11 @@ export default defineConfig({
     extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
   server: {
+      https: {
+        key,
+        cert,
+      },
+
     port: 4399,
     proxy: {
       "/sdApi": {
