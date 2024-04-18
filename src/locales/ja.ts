@@ -166,6 +166,18 @@ export default {
       title: "プレイグラウンド",
     },
   },
+  chat: {
+    newchat: "新規チャット",
+    settings: "設定",
+    chating: "楽しくチャットしましょう",
+    hello: "こんにちは、あなたのAIアシスタントです。何か質問や命令があれば、遠慮なくどうぞ！",
+    tips: "デフォルトではUserとAssistantの対話があり、AIが最高の知性を発揮します",
+    youname: "あなたの呼び名",
+    ainame: "AIの呼び名",
+    text: "AIの自己紹介",
+    close: "閉じる",
+    ok: "確定"
+  },
   chatgpt: {
     config: {
       title: "ChatGPT 設定",

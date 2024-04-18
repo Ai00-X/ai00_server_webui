@@ -18,7 +18,7 @@ const chatStore = useChatStore();
 const ChatList = ChatListStore();
 const userMessage = ref("");
 const aiMessage = ref("");
-
+const ctrlEnterToSend = ref(true);
 const createMessage = (user: User, text: string) => {
   const message: Message = {
     id: "_" + Math.random().toString(36).substring(2, 11),
@@ -74,7 +74,9 @@ watch(
   },
   { deep: true }
 );
-
+const haveHistory = computed(() => {
+  return chatStore.chatHistory.history.length > 0;
+});
 
 const sendChatMessage = async (content: string = userMessage.value) => {
   try {
@@ -165,6 +167,28 @@ let res: string[] = ["", "", ""];
 res.forEach((item, index) => {
   res[index] = " ";
 });
+
+const handleKeyDownCtrlEnter = () => {
+  if (ctrlEnterToSend.value) {
+    sendMessage();
+  }
+};
+const handleKeyDownEnter = () => {
+  if (!ctrlEnterToSend.value) {
+    sendMessage();
+  }
+};
+const dialog = ref(false);
+const switchMessage = ref("您确定要切换发送方式为enter/ctrl+enter吗？");
+
+const handleIconClick = () => {
+  if (ctrlEnterToSend.value) {
+    switchMessage.value = "您确定要切换发送方式为enter吗？";
+  } else {
+    switchMessage.value = "您确定要切换发送方式为ctrl+enter吗？";
+  }
+  dialog.value = true;
+};
 </script>
 
 <template>
@@ -179,7 +203,9 @@ res.forEach((item, index) => {
     clear-icon="mdi-close-circle"
     clearable
     :disabled="ischat"
-    @keydown.ctrl.enter="sendMessage"
+    @keydown.ctrl.enter="handleKeyDownCtrlEnter"
+    @keydown.enter="handleKeyDownEnter"
+    v-if="haveHistory"
   >
     <template #append>
       <v-btn
@@ -196,11 +222,22 @@ res.forEach((item, index) => {
           <v-icon @click="sendMessage" color="primary">mdi-new-box</v-icon>
         </li>
         <li style="list-style: none; margin-bottom: 15px">
-          <v-icon color="#a2a2a2" icon="mdi-web" @click="sendMessage"></v-icon>
+          <v-icon color="#a2a2a2" icon="mdi-web" @click="handleIconClick"></v-icon>
         </li>
       </ul>
     </template>
   </v-textarea>
+  <v-dialog v-model="dialog" max-width="300px">
+    <v-card>
+      <v-card-title class="headline">切换发送方式</v-card-title>
+      <v-card-text>{{ switchMessage }}</v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="green darken-1"  @click="dialog = false">取消</v-btn>
+        <v-btn color="green darken-1"  @click="ctrlEnterToSend = !ctrlEnterToSend; dialog = false">确定</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   <v-snackbar :timeout="2000" color="error" v-model="isError">
     {{ errorMsg }}
   </v-snackbar>

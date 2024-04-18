@@ -24,19 +24,19 @@ const You:User = {
 
 
 
-const history: Message = {
-  id: "_" + Math.random().toString(36).substring(2, 11),
-  user: Ai,
-  // @ts-ignore
-  text:i18n.global.t("chat.hello"),
-  timestamp: new Date().getTime(),
-};
-const ss :Message[] = []
-ss.push(history)
+// const history: Message = {
+//   id: "_" + Math.random().toString(36).substring(2, 11),
+//   user: Ai,
+//   // @ts-ignore
+//   text:i18n.global.t("chat.hello"),
+//   timestamp: new Date().getTime(),
+// };
+// const ss :Message[] = []
+// ss.push(history)
 
 const historys:clist = {
   id_name: "123",
-  history: ss,
+  history: [],
   ai:Ai,
   me:You
 }
