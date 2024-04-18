@@ -3,7 +3,7 @@ const quant = ref(0);
 const quantint = ref("None");
 const quanttemp = ref(0);
 
-const token_chunk_size = ref(32);
+const token_chunk_size = ref(128);
 const max_runtime_batch = ref(8);
 const max_batch = ref(16);
 const modelName = ref("");
@@ -271,11 +271,11 @@ const { t } = useI18n();
               title="LoRA设置"
               prepend-icon="mdi-vector-link"
             >
-              <template v-slot:text> 
+              <template v-slot:text>
 
                 <v-row align="center">
                       <v-col cols="4">
- 
+
                       </v-col>
                       <v-col cols="4">
                         <v-chip  color="primary" label>
@@ -283,7 +283,7 @@ const { t } = useI18n();
                         </v-chip>
                       </v-col>
                       <v-col cols="4">
- 
+
                       </v-col>
                     </v-row>
               </template>
@@ -354,7 +354,7 @@ const { t } = useI18n();
                     -->
                     <v-row align="center">
                       <v-col cols="4">
- 
+
                       </v-col>
                       <v-col cols="4">
                         <v-chip  color="primary" label>
@@ -362,7 +362,7 @@ const { t } = useI18n();
                         </v-chip>
                       </v-col>
                       <v-col cols="4">
- 
+
                       </v-col>
                     </v-row>
                   </template>

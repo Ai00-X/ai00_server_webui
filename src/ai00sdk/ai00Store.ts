@@ -40,7 +40,7 @@ const apis :(types.Ai00ApiPostType | types.Ai00ApiGetType)[] = [
     test: {
       model_path: "assets/models/RWKV-4-World-0.4B-v1-20230529-ctx4096.st",
       quant: 0,
-      token_chunk_size: 32,
+      token_chunk_size: 128,
       max_runtime_batch: 8,
       max_batch: 16,
       embed_layer: 8,
