@@ -10,6 +10,9 @@ import 'md-editor-v3/lib/style.css';
 import * as ai00Type from "@/ai00sdk/ai00Type";
 import  Copy  from "./Copy.vue";
 import { useSnackbarStore } from "@/stores/snackbarStore";
+import * as htmlToImage from 'html-to-image';
+
+
 const snackbarStore = useSnackbarStore();
 const todoStore = useTodoStore();
 const ischat = computed(() => {
@@ -65,7 +68,7 @@ try{
     prompt: [prompt],
     max_tokens: todoStore.Max_Tokens,
     tau: todoStore.tau,
-    rate: todoStore.tau,
+    rate: todoStore.rate,
     stop: ["\n\n","\nQ:","\nUser:","\nQuestion:","\n\nQ:","\n\nUser:","\n\nQuestion:","Q:","User:","Question:"],
     stream: true,
   }
@@ -88,10 +91,6 @@ try{
 };
 
 
-import * as htmlToImage from 'html-to-image';
-import {useChatStore} from "@/views/demos/chat/chatStore";
-import {c} from "vite/dist/node/types.d-AKzkD8vd";
-import {cancelSendNew} from "@/ai00sdk/ai00Api";
 
 
 const goClipboard = async () => {
