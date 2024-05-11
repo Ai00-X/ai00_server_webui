@@ -1,19 +1,18 @@
 import { defineStore } from "pinia";
-import type { Message, User , clist } from "./chatTypes";
+import type { Message, User, clist } from "./chatTypes";
 import i18n from "@/plugins/i18n";
 
-
-const Ai:User = {
+const Ai: User = {
   id: 2,
   name: "Assistant",
-  avatar: "/tou/0.png"
-}
+  avatar: "/tou/0.png",
+};
 
-const You:User = {
+const You: User = {
   id: 1,
   name: "User",
-  avatar: "/tou/8.png"
-}
+  avatar: "/tou/8.png",
+};
 
 // const history: Message = {
 //   id: "123",
@@ -21,8 +20,6 @@ const You:User = {
 //   text: "hi",
 //   timestamp: ""
 // }
-
-
 
 // const history: Message = {
 //   id: "_" + Math.random().toString(36).substring(2, 11),
@@ -34,13 +31,12 @@ const You:User = {
 // const ss :Message[] = []
 // ss.push(history)
 
-const historys:clist = {
+const historys: clist = {
   id_name: "123",
   history: [],
-  ai:Ai,
-  me:You
-}
-
+  ai: Ai,
+  me: You,
+};
 
 export const useChatStore = defineStore({
   id: "rpgchat",
@@ -52,18 +48,17 @@ export const useChatStore = defineStore({
     nowchat: "",
     isChatting: false,
     showSetting: true,
-
     Max_Tokens: 1000,
     TOP_P: 0.5,
     Temperature: 1,
     Presence: 0.3,
     Frequency: 0.3,
     Penalty: 400,
-    tau:3.0,
-    rate:0.1,
+    tau: 3.0,
+    rate: 0.1,
     SamplerType: "Nucleus",
-
     Model: "",
+    state: "",
   }),
 
   persist: {
@@ -82,7 +77,6 @@ export const useChatStore = defineStore({
     },
   },
   actions: {
-
     setSettings() {
       this.showSetting = !this.showSetting;
     },
@@ -90,19 +84,18 @@ export const useChatStore = defineStore({
     addToHistory(payload: Message) {
       this.chatHistory.history.push(payload);
     },
-    startHistory(payload: Message,me:User,ai:User) {
+    startHistory(payload: Message, me: User, ai: User) {
       this.chatHistory.history = [];
       this.chatHistory.history.push(payload);
       this.chatHistory.ai = ai;
       this.chatHistory.me = me;
     },
     setHistory(his: clist) {
-      console.log(this.chatHistory)
-      this.chatHistory.history= his.history;
-      this.chatHistory.ai =his.ai;
+      console.log(this.chatHistory);
+      this.chatHistory.history = his.history;
+      this.chatHistory.ai = his.ai;
       this.chatHistory.me = his.me;
-
-      },
+    },
     setnowchat(nowchatid: string) {
       this.nowchat = nowchatid;
     },
@@ -133,24 +126,29 @@ export const useChatStore = defineStore({
       console.log(history);
     },
 
-
     changeLatestMessage(msg: string) {
-      let newmsg = this.chatHistory.history[this.chatHistory.history.length - 1];
+      let newmsg =
+        this.chatHistory.history[this.chatHistory.history.length - 1];
 
       this.chatHistory[this.chatHistory.history.length];
       //console.log(newmsg);
       newmsg["text"] = msg;
-      this.chatHistory.history.splice([this.chatHistory.history.length - 1], 1, newmsg);
+      this.chatHistory.history.splice(
+        [this.chatHistory.history.length - 1],
+        1,
+        newmsg
+      );
     },
     getLatestMessage() {
       return this.chatHistory.history[this.chatHistory.history.length - 1];
     },
     deleteMessage(id: string) {
-
       let msg = this.chatHistory.history.find((item) => item.id === id);
       //获取 msg的 index
       let index = this.chatHistory.history.indexOf(msg);
-      if(index==0){return}
+      if (index == 0) {
+        return;
+      }
       if (msg.user.id === 1) {
         this.chatHistory.history.splice(index, 2);
       }

@@ -30,11 +30,35 @@ const mainClass = computed(() => {
 });
 
   const model = ref("")
+  const states = ref<any>([])
 
   window.Ai00Api.oai_models((res: any) => {
+    console.log(res)
     model.value = res.data[0].id
     chatStore.Model = model.value
-  })
+  });
+
+  const stateids = ref<string[]>([]);
+
+  stateids.value = [""];
+
+
+  window.Ai00Api.models_info((res: any) => {
+
+    states.value = res.states
+    console.log(states.value)
+    //把所有id取出来将“00000000-0000-0000-0000-000000000001”变为数字，组成一个string[]
+    //stateids.value = states.value.map((item: any) => parseInt(item.id.replace(/-/g,"")))
+
+    states.value.map((item: any) =>stateids.value.push(item.id))
+
+
+
+    console.log(stateids)
+
+  });
+
+
 
 
 </script>
@@ -78,6 +102,13 @@ const mainClass = computed(() => {
   v-model="chatStore.SamplerType"
   variant="outlined"
 ></v-select>
+<v-select
+  label="State Tuned"
+  :items="stateids"
+  v-model="chatStore.state"
+  variant="outlined"
+></v-select>
+
 <v-card-text> Max Tokens </v-card-text>
         <v-slider
           v-model="chatStore.Max_Tokens"
@@ -156,6 +187,7 @@ const mainClass = computed(() => {
           :step="0.1"
           thumb-label="always"
         ></v-slider>
+
       </div>
       </template>
     </v-card>

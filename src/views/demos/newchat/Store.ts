@@ -25,6 +25,8 @@ export const useTodoStore = defineStore({
     Model:"",
     AIimg:"",
     SamplerType:"Nucleus",
+    bnf_schema:"",
+    state: "",
 
   }),
 

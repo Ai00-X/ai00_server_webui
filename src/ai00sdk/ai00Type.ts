@@ -27,21 +27,17 @@ export interface FilesDirType {
 
 export interface ModelsLoadType {
  model_path: string;
- /// Specify layers that needs to be quantized.
  quant: number;
  quant_type: string;
- /// Maximum tokens to be processed in parallel at once.
  token_chunk_size: number;
- /// The chunk size for each split of the head matrix.
- max_runtime_batch: number;
- /// Number of states that are cached on GPU.
  max_batch: number;
- /// the (reversed) number of layer at which the output is as embedding.
  embed_device: string;
- /// Path to the tokenizer.
  tokenizer_path: string;
- /// Adapter selection.
  adapter: any;
+ bnf?: any;
+ lora?: any;
+ state?: any;
+ precision?: string;
 }
 
 export interface OaiCompletionsType {
@@ -56,6 +52,8 @@ export interface OaiCompletionsType {
   penalty_decay?: number;
   tau?: number;
   rate?: number;
+  bnf_schema?: string;
+  state?: string;
 }
 
 export interface OaiChatCompletionsType {
@@ -71,6 +69,7 @@ export interface OaiChatCompletionsType {
   tau?: number;
   rate?: number;
   names: chatHistoryNameType;
+  state?: string;
 }
 
 export interface chatHistoryNameType {

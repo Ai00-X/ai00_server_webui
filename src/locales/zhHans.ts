@@ -63,6 +63,8 @@ export default {
     title1: "参数设置",
     subtitle1: "选择模型",
     subtitle2: "选择后端",
+    loraselect: "选择Lora模型",
+    stateselect: "选择state模型",
     button1: "保存设置",
     button2: "启动模型",
   },
