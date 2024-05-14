@@ -74,7 +74,7 @@ const sendMessage = () => {
   console.log(chatStore.getLatestMessage().text);
   sendChatMessage(chatStore.getLatestMessage().text);
 };
-const sendChatMessage = async (content: string) => {
+const sendChatMessage = async (content: string = userMessage.value) => {
   try {
     chatStore.setChatting(true);
     const messlist = chatStore.chatHistory.history;
@@ -100,11 +100,12 @@ const sendChatMessage = async (content: string) => {
   结构为 ai00Type.OaiChatCompletionsType
   */
     if (chatStore.SamplerType == "Nucleus") {
-      const body: ai00Type.OaiChatCompletionsType = {
+      let body: ai00Type.OaiChatCompletionsType = {
         messages: contlist,
         max_tokens: chatStore.Max_Tokens,
         temperature: chatStore.Temperature,
         top_p: chatStore.TOP_P,
+        state: chatStore.stateid,
         presence_penalty: chatStore.Presence,
         frequency_penalty: chatStore.Frequency,
         penalty_decay: Math.exp(-0.69314718055994 / Number(chatStore.Penalty)),
@@ -118,15 +119,20 @@ const sendChatMessage = async (content: string) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
+      if (body.state == "" || body.state == null || body.state == "NULL") {
+        delete body.state;
+        console.log(body);
+      }
       await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
     } else if (chatStore.SamplerType == "Mirostat") {
-      const body: ai00Type.OaiChatCompletionsType = {
+      let body: ai00Type.OaiChatCompletionsType = {
         messages: contlist,
         max_tokens: chatStore.Max_Tokens,
         tau: chatStore.tau,
         rate:chatStore.rate,
+        state: chatStore.stateid,
         stop: [
           "\n" + chatStore.chatHistory.me.name + ":",
           chatStore.chatHistory.me.name + ":",
@@ -137,6 +143,11 @@ const sendChatMessage = async (content: string) => {
           assistant: chatStore.chatHistory.ai.name,
         },
       };
+      //如果 bady.state 为空或者 ""，则将 body.state 从body对象中去除
+      if (body.state == "" || body.state == null) {
+        delete body.state;
+        console.log(body);
+      }
       await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
         chatStore.changeLatestMessage(res);
       });
@@ -149,9 +160,9 @@ const sendChatMessage = async (content: string) => {
     // 调用 window.Ai00Api.oai_chat_completions 函数，传入参数：
     // body 参数数据结构是 /ai00sdk/ai00Type.ts 中定义 的 ai00Type.OaiChatCompletionsType
     // console.log("111")
-    // window.Ai00Api.oai_chat_completions(body, async (res: string) => {
-    //   chatStore.changeLatestMessage(res);
-    // });
+    await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
+      chatStore.changeLatestMessage(res);
+    });
   } catch (error: any) {
     chatStore.setChatting(false);
   } finally {

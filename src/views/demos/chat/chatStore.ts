@@ -58,7 +58,8 @@ export const useChatStore = defineStore({
     rate: 0.1,
     SamplerType: "Nucleus",
     Model: "",
-    state: "",
+    stateid: "",
+    statename: "",
   }),
 
   persist: {

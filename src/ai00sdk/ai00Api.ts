@@ -346,6 +346,27 @@ module Ai00Api {
   }
 
   /*
+  API :  /api/models/save
+  */
+  export async function models_save(body: ai00Type.ModelSaveType,run: Function) {
+    const ai00Store = useAi00Store();
+    const apiurl = "/api/models/save";
+    const foundApi = ai00Store.apis.find((api) => api.apiurl === apiurl);
+
+    if (foundApi) {
+      const method = foundApi.method;
+
+      await send_api(apiurl, method, body, (date: any) => {
+        if (run) {
+          run(date);
+        }
+      });
+    } else {
+      console.log("找不到匹配的API");
+    }
+  }
+
+  /*
   API :  /api/files/dir
   */
   export async function files_dir(body: ai00Type.FilesDirType,run: Function) {

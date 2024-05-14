@@ -50,6 +50,15 @@ const apis :(types.Ai00ApiPostType | types.Ai00ApiGetType)[] = [
     readme: "等待补充"
   },
   {
+    apiurl: "/api/models/save",
+    method: "POST",
+    send_body: {},
+    test: {
+      model_path: "xxxx.prefab"
+    },
+    readme: "等待补充"
+  },
+  {
     apiurl: "/api/models/info",
     method: "GET",
     readme: "等待补充"

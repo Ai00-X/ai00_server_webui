@@ -39,8 +39,10 @@ const mainClass = computed(() => {
   });
 
   const stateids = ref<string[]>([]);
+  const statenames = ref<string[]>([]);
 
-  stateids.value = [""];
+  stateids.value = ["NULL"];
+  statenames.value = ["NULL"];
 
 
   window.Ai00Api.models_info((res: any) => {
@@ -48,15 +50,27 @@ const mainClass = computed(() => {
     states.value = res.states
     console.log(states.value)
     //把所有id取出来将“00000000-0000-0000-0000-000000000001”变为数字，组成一个string[]
-    //stateids.value = states.value.map((item: any) => parseInt(item.id.replace(/-/g,"")))
 
-    states.value.map((item: any) =>stateids.value.push(item.id))
+
+    states.value.map((item: any) => {
+      stateids.value.push(item.id);
+      statenames.value.push(item.name);
+    })
 
 
 
     console.log(stateids)
 
   });
+
+  watch(() => chatStore.statename, (newVal, oldVal) => {
+  // 获得statename的对应index 更改对应的chatStore.stateid
+    const index = statenames.value.indexOf(newVal);
+    chatStore.stateid = stateids.value[index];
+    console.log(chatStore.stateid)
+  });
+
+
 
 
 
@@ -103,9 +117,9 @@ const mainClass = computed(() => {
   variant="outlined"
 ></v-select>
 <v-select
-  label="State Tuned"
-  :items="stateids"
-  v-model="chatStore.state"
+  label="Intial State"
+  :items="statenames"
+  v-model="chatStore.statename"
   variant="outlined"
 ></v-select>
 

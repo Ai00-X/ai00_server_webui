@@ -82,3 +82,7 @@ export interface OaiEmbeddingsType {
   input: string;
 }
 
+export interface ModelSaveType {
+  model_path: string;
+}
+

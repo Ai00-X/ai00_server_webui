@@ -109,7 +109,7 @@ const sendChatMessage = async (content: string = userMessage.value) => {
         max_tokens: chatStore.Max_Tokens,
         temperature: chatStore.Temperature,
         top_p: chatStore.TOP_P,
-        state: chatStore.state,
+        state: chatStore.stateid,
         presence_penalty: chatStore.Presence,
         frequency_penalty: chatStore.Frequency,
         penalty_decay: Math.exp(-0.69314718055994 / Number(chatStore.Penalty)),
@@ -136,7 +136,7 @@ const sendChatMessage = async (content: string = userMessage.value) => {
         max_tokens: chatStore.Max_Tokens,
         tau: chatStore.tau,
         rate:chatStore.rate,
-        state: chatStore.state,
+        state: chatStore.stateid,
         stop: [
           "\n" + chatStore.chatHistory.me.name + ":",
           chatStore.chatHistory.me.name + ":",
