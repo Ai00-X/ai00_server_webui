@@ -42,35 +42,51 @@ export interface ModelsLoadType {
 
 export interface OaiCompletionsType {
   prompt: any[];
+  state?: string;
   max_tokens: number;
   stop: any[];
   stream: boolean;
-  temperature?: number;
-  top_p?: number;
-  presence_penalty?: number;
-  frequency_penalty?: number;
-  penalty_decay?: number;
-  tau?: number;
-  rate?: number;
   bnf_schema?: string;
-  state?: string;
+  sampler_override?: MirostatType | NucleusType | TypicalType;
 }
 
 export interface OaiChatCompletionsType {
   messages: any[];
+  names: chatHistoryNameType;
+  state?: string;
   max_tokens: number;
   stop: any[];
   stream: boolean;
-  temperature?: number;
-  top_p?: number;
-  presence_penalty?: number;
-  frequency_penalty?: number;
-  penalty_decay?: number;
-  tau?: number;
-  rate?: number;
-  names: chatHistoryNameType;
-  state?: string;
+  bnf_schema?: string;
+  sampler_override?: MirostatType | NucleusType | TypicalType;
 }
+
+export interface MirostatType {
+  type: string;
+  tau: number;
+  rate: number;
+}
+
+export interface NucleusType {
+  type: string;
+  top_p: number;
+  top_k: number;
+  temperature: number;
+  presence_penalty: number;
+  frequency_penalty: number;
+  penalty_decay: number;
+}
+
+export interface TypicalType {
+  type: string;
+  tau: number;
+  top_k: number;
+  temperature: number;
+  presence_penalty: number;
+  frequency_penalty: number;
+  penalty_decay: number;
+}
+
 
 export interface chatHistoryNameType {
   user: string;

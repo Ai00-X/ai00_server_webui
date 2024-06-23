@@ -22,7 +22,7 @@ const { text } = toRefs(props)
 </script>
 
 <template v-slot:activator="{ props }">
-  <MdPreview :editorId="id" :modelValue="text" previewTheme="vuepress" class="preview" />
+  <MdPreview :editorId="id" :modelValue="text" previewTheme="vuepress" class="preview" :codeFoldable="false" />
 </template>
 
 

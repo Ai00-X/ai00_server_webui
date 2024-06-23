@@ -55,10 +55,7 @@ export default defineConfig({
     extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
   server: {
-      https: {
-        key,
-        cert,
-      },
+
 
     port: 4399,
     proxy: {

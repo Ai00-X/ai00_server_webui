@@ -22,7 +22,7 @@ import PerfectScrollbar from "vue3-perfect-scrollbar";
 import "@/styles/main.scss";
 import router from "./router";
 import i18n from "./plugins/i18n";
-import "vue3-lottie/dist/style.css";
+
 import Vue3Lottie from "vue3-lottie";
 
 
@@ -37,7 +37,7 @@ declare global {
     }
   }
 //app.config.globalProperties.$Ai00Api = Ai00Api;
-window.Ai00Api = Ai00Api; 
+window.Ai00Api = Ai00Api;
 
 app.use(router);
 app.use(PerfectScrollbar);

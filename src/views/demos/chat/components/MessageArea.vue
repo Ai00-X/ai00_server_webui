@@ -10,14 +10,15 @@ const chatStore = useChatStore();
 </script>
 
 <template>
-  <transition-group name="list">
+
     <Message
       v-for="message in chatStore.chatHistory.history"
       :key="message.id"
       :message="message"
-      class="my-12 d-flex "
+      class="my-12 "
+
     />
-  </transition-group>
+
 </template>
 
 <style scoped lang="scss">

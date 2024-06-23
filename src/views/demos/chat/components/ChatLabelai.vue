@@ -4,7 +4,6 @@
 * @Description:
 -->
 <script setup lang="ts">
-import { ref } from 'vue'
 import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/preview.css'
 
@@ -22,7 +21,7 @@ const { text } = toRefs(props)
 </script>
 
 <template v-slot:activator="{ props }">
-  <MdPreview :editorId="id" :modelValue="text" />
+  <MdPreview :editorId="id" :modelValue="text" previewTheme="github" :codeFoldable="false" />
 </template>
 
 

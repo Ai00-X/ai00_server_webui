@@ -22,14 +22,14 @@ const { text } = toRefs(props)
 </script>
 
 <template v-slot:activator="{ props }">
-  <MdPreview :editorId="id" :modelValue="text"  class="sss1" />
+  <MdPreview :editorId="id" :modelValue="text"  class="sss1" :codeFoldable="false" />
 </template>
 
 
 <style scoped lang="scss">
 .sss1{
- 
+
   background: rgba(var(--v-theme-primary) , 0);
-  
+
 }
 </style>

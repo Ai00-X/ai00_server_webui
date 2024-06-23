@@ -25,7 +25,7 @@ module Ai00Api {
 
 
     if(window.location.host == "localhost:4399"){
-      ai00Store.setserverip("https://127.0.0.1:65530");
+      ai00Store.setserverip("http://127.0.0.1:65530");
     }else{
       ai00Store.setserverip(window.location.origin)
     }
@@ -53,6 +53,7 @@ module Ai00Api {
           let contentscache = "";
           eventData = "";
           let temp = 0;
+          let times = 0;
           while (true) {
             // eslint-disable-next-line no-await-in-loop
             const { value, done } = await reader.read();
@@ -103,10 +104,11 @@ module Ai00Api {
               }
 
               contentscache += content;
+              times++;
               eventData+= content;
               if (temp == 0) {
                 if (onmessage) {
-                  onmessage(contentscache);
+                  onmessage(contentscache,times);
                 }
               }
             }
@@ -166,7 +168,7 @@ module Ai00Api {
   }
   export function cancelSend() {
     controller.abort();
-    useChatStore().changeLatestMessage(eventData);
+    useChatStore().changeLatestMessage(eventData,0);
     useChatStore().setChatting(false);
   }
   export function cancelSendNew() {
@@ -208,8 +210,8 @@ module Ai00Api {
     if (foundApi) {
 
       const method = foundApi.method;
-      await send_api(apiurl, method, body, (date: any) => {
-        run(date);
+      await send_api(apiurl, method, body, (date: any,times:number) => {
+        run(date,times);
       });
     } else {
       console.log("找不到匹配的API");
@@ -229,8 +231,8 @@ module Ai00Api {
 
     if (foundApi) {
       const method = foundApi.method;
-      await send_api(apiurl, method, body, (date: any) => {
-        run(date);
+      await send_api(apiurl, method, body, (date: any,times:number) => {
+        run(date,times);
       });
     } else {
       console.log("找不到匹配的API");
@@ -327,7 +329,7 @@ module Ai00Api {
   */
   export async function models_load(body: ai00Type.ModelsLoadType,run: Function) {
     const ai00Store = useAi00Store();
-    const apiurl = "/api/models/load";
+    const apiurl = "/admin/models/load";
     const foundApi = ai00Store.apis.find((api) => api.apiurl === apiurl);
 
     if (foundApi) {
@@ -350,7 +352,7 @@ module Ai00Api {
   */
   export async function models_save(body: ai00Type.ModelSaveType,run: Function) {
     const ai00Store = useAi00Store();
-    const apiurl = "/api/models/save";
+    const apiurl = "/admin/models/save";
     const foundApi = ai00Store.apis.find((api) => api.apiurl === apiurl);
 
     if (foundApi) {

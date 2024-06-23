@@ -7,7 +7,6 @@
 import type { User, Message, ChatMessage } from "../chatTypes";
 import { ChatListStore } from "../chatlistStore";
 import { useChatStore } from "../chatStore";
-import { watch, nextTick } from "vue";
 import moment from "moment";
 import "moment/dist/locale/zh-cn";
 import * as ai00Type from "@/ai00sdk/ai00Type";
@@ -25,6 +24,9 @@ const createMessage = (user: User, text: string) => {
     user: user,
     text: text,
     timestamp: new Date().getTime(),
+    starttime:0,
+    endtime:0,
+    tokens:0
   };
   return message;
 };
@@ -78,7 +80,7 @@ const haveHistory = computed(() => {
   return chatStore.chatHistory.history.length > 0;
 });
 
-const sendChatMessage = async (content: string = userMessage.value) => {
+const sendChatMessage = async (content: string) => {
   try {
     chatStore.setChatting(true);
     const messlist = chatStore.chatHistory.history;
@@ -103,70 +105,16 @@ const sendChatMessage = async (content: string = userMessage.value) => {
     /*定义要传送给    window.Ai00Api.oai_chat_completions  的 body参数 ，
   结构为 ai00Type.OaiChatCompletionsType
   */
-    if (chatStore.SamplerType == "Nucleus") {
-      let body: ai00Type.OaiChatCompletionsType = {
-        messages: contlist,
-        max_tokens: chatStore.Max_Tokens,
-        temperature: chatStore.Temperature,
-        top_p: chatStore.TOP_P,
-        state: chatStore.stateid,
-        presence_penalty: chatStore.Presence,
-        frequency_penalty: chatStore.Frequency,
-        penalty_decay: Math.exp(-0.69314718055994 / Number(chatStore.Penalty)),
-        stop: [
-          "\n" + chatStore.chatHistory.me.name + ":",
-          chatStore.chatHistory.me.name + ":",
-        ],
-        stream: true,
-        names: {
-          user: chatStore.chatHistory.me.name,
-          assistant: chatStore.chatHistory.ai.name,
-        },
-      };
-      if (body.state == "" || body.state == null || body.state == "NULL") {
-        delete body.state;
-        console.log(body);
-      }
-      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
-        chatStore.changeLatestMessage(res);
-      });
-    } else if (chatStore.SamplerType == "Mirostat") {
-      let body: ai00Type.OaiChatCompletionsType = {
-        messages: contlist,
-        max_tokens: chatStore.Max_Tokens,
-        tau: chatStore.tau,
-        rate:chatStore.rate,
-        state: chatStore.stateid,
-        stop: [
-          "\n" + chatStore.chatHistory.me.name + ":",
-          chatStore.chatHistory.me.name + ":",
-        ],
-        stream: true,
-        names: {
-          user: chatStore.chatHistory.me.name,
-          assistant: chatStore.chatHistory.ai.name,
-        },
-      };
-      //如果 bady.state 为空或者 ""，则将 body.state 从body对象中去除
-      if (body.state == "" || body.state == null) {
-        delete body.state;
-        console.log(body);
-      }
-      await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
-        chatStore.changeLatestMessage(res);
-      });
 
-      // 调用 window.Ai00Api.oai_chat_completions 函数，传入参数：
-      // body 参数数据结构是 /ai00sdk/ai00Type.ts 中定义 的 ai00Type.OaiChatCompletionsType
-      // console.log("111")
-    }
+      let body: ai00Type.OaiChatCompletionsType = chatStore.createBody(contlist);
 
-    // 调用 window.Ai00Api.oai_chat_completions 函数，传入参数：
-    // body 参数数据结构是 /ai00sdk/ai00Type.ts 中定义 的 ai00Type.OaiChatCompletionsType
-    // console.log("111")
-    await window.Ai00Api.oai_chat_completions(body, async (res: string) => {
-      chatStore.changeLatestMessage(res);
-    });
+      chatStore.starttime();
+
+      await window.Ai00Api.oai_chat_completions(body, async (res: string,times:number) => {
+        chatStore.changeLatestMessage(res,times);
+       });
+
+
   } catch (error: any) {
     chatStore.setChatting(false);
   } finally {

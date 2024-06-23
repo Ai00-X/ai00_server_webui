@@ -44,81 +44,11 @@ const sendPrompt = async () => {
   const temp: string = todoStore.text;
   try {
     todoStore.setChatting(true);
-    if (todoStore.SamplerType == "Nucleus") {
-      let body: ai00Type.OaiCompletionsType = {
-        prompt: [prompt],
-        max_tokens: todoStore.Max_Tokens,
-        temperature: todoStore.Temperature,
-        top_p: todoStore.TOP_P,
-        presence_penalty: todoStore.Presence,
-        frequency_penalty: todoStore.Frequency,
-        penalty_decay: Math.exp(-0.69314718055994 / Number(todoStore.Penalty)),
-        stop: [
-          "\n\n",
-          "\nQ:",
-          "\nUser:",
-          "\nQuestion:",
-          "\n\nQ:",
-          "\n\nUser:",
-          "\n\nQuestion:",
-          "Q:",
-          "User:",
-          "Question:",
-        ],
-        stream: true,
-        bnf_schema: todoStore.bnf_schema,
-        state: todoStore.state,
-      };
-      if (
-        body.bnf_schema == "" ||
-        body.bnf_schema == null ||
-        body.bnf_schema == "NULL"
-      ) {
-        delete body.bnf_schema;
-      }
-      if (body.state == "" || body.state == null || body.state == "NULL") {
-        delete body.state;
-      }
+    let body = todoStore.createBody(prompt);
       await window.Ai00Api.oai_completions(body, async (res: string) => {
         todoStore.text = temp + res;
       });
-    } else if (todoStore.SamplerType == "Mirostat") {
-      let body: ai00Type.OaiCompletionsType = {
-        prompt: [prompt],
-        max_tokens: todoStore.Max_Tokens,
-        tau: todoStore.tau,
-        rate: todoStore.rate,
-        stop: [
-          "\n\n",
-          "\nQ:",
-          "\nUser:",
-          "\nQuestion:",
-          "\n\nQ:",
-          "\n\nUser:",
-          "\n\nQuestion:",
-          "Q:",
-          "User:",
-          "Question:",
-        ],
-        stream: true,
-        bnf_schema: todoStore.bnf_schema,
-        state: todoStore.state,
-      };
 
-      if (
-        body.bnf_schema == "" ||
-        body.bnf_schema == null ||
-        body.bnf_schema == "NULL"
-      ) {
-        delete body.bnf_schema;
-      }
-      if (body.state == "" || body.state == null || body.state == "NULL") {
-        delete body.state;
-      }
-      await window.Ai00Api.oai_completions(body, async (res: string) => {
-        todoStore.text = temp + res;
-      });
-    }
   } catch (error: any) {
     todoStore.setChatting(false);
   } finally {

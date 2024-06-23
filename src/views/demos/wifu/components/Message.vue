@@ -74,8 +74,8 @@ function deleteMessage(id: string) {
       :theme="isUserMessage ? ' dark' : ' light'"
       :style="
         isUserMessage
-          ? ' white-space: pre-wrap;word-break: break-all; min-width: 300px; max-width: 500px'
-          : ' white-space: pre-wrap;word-break: break-all; min-width: 300px; max-width: 500px'
+          ? ' word-break: break-all; min-width: 300px; max-width: 500px'
+          : ' word-break: break-all; min-width: 300px; max-width: 500px'
       "
     >
       <chat-labelai v-if="!isUserMessage" :text="message.text" />
@@ -83,9 +83,9 @@ function deleteMessage(id: string) {
 
       <v-card-actions class="card-actions">
         <div class="close"                 v-if="!isUserMessage">
-      <v-btn @click=""  density="compact" icon="mdi-reload"  size="small">  </v-btn> 
-      <v-btn @click="deleteMessage(message.id)"  density="compact" icon="mdi-close" size="small">  </v-btn> 
-    
+      <v-btn @click=""  density="compact" icon="mdi-reload"  size="small">  </v-btn>
+      <v-btn @click="deleteMessage(message.id)"  density="compact" icon="mdi-close" size="small">  </v-btn>
+
      </div>
 
         <span
@@ -160,7 +160,7 @@ function deleteMessage(id: string) {
   top: 0px;
   z-index: 1;
   cursor: pointer;
- 
- 
+
+
 }
 </style>

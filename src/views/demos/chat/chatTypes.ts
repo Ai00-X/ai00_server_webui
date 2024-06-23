@@ -9,6 +9,9 @@ export interface Message {
   user: User;
   text: string;
   timestamp: number | string;
+  tokens: number;
+  starttime: number | string;
+  endtime: number | string;
 }
 
 
